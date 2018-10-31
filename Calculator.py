@@ -13,7 +13,11 @@ class Calculator:
         self.root.title("Spoopy Calculator")
         self.root.geometry("376x500")
         self.root.configure(background='black')
-        self.root.iconbitmap("pumpkin.ico")
+        try:
+            self.root.iconbitmap("pumpkin.ico")
+
+        except:
+            pass
 
         #preset style for buttons
         self.wide = 94

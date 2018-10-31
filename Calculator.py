@@ -1,22 +1,21 @@
-#Chris Martin
-#10/29/18
-#CS480
-
 import tkinter as tk
 
 
 class Calculator:
-
+    
+    #global variable
     equation = ""
 
     def __init__(self):
-
+        
+        #setup for the window
         self.root = tk.Tk()
         self.root.title("Spoopy Calculator")
         self.root.geometry("376x500")
         self.root.configure(background='black')
         self.root.iconbitmap("pumpkin.ico")
-
+        
+        #preset style for buttons
         self.wide = 94
         self.high = 75
         self.text_font = 'Helvetica'
@@ -24,7 +23,8 @@ class Calculator:
         self.text_style = 'bold'
         self.color = '#ff9900'
         self.color2 = '#ffcc80'
-
+        
+        #create buttons for calculator
         self.button_clear = tk.Button(self.root, text='CE', command=self.clear, bg=self.color,
                                       font=(self.text_font, self.text_size, self.text_style))
         self.button_clear.place(x=0, y=125, width=self.wide, height=self.high)
@@ -119,31 +119,38 @@ class Calculator:
         pass
 
     def api(self):
+        #run mainloop for program
         self.root.after(0, self.equate())
         self.root.mainloop()
 
     def equate(self):
+        #set for current value of the equation to show
         self.show = tk.Label(self.root, textvariable=self.equation_SV, anchor='e', bg=self.color2,
                              font=(self.text_font, self.text_size, self.text_style))
         self.show.place(x=0, y=0, width=375, height=125)
 
     def append(self, stringy):
+        #add more values to the equation string based upon pressed buttons
         self.equation = self.equation + stringy
         self.equation_SV.set(self.equation)
 
     def clear(self):
+        #clears the equation string when clear button is pressed
         self.equation = ""
         self.equation_SV.set(self.equation)
 
     def solve(self, expression):
+        #solves the equation
         counter = 0
         paren_counter = 0
         exponent = False
-        e = 0
+        #e = 0
+        #checks if only one valued has been entered
         if len(expression) == 1:
             self.equation_SV.set("Error! Please Try Again!")
             self.equation = ""
             return
+        #iterates through the expression just to check if the expression is viable
         for i in expression:
             if exponent is True:
                 counter += 1
@@ -186,6 +193,7 @@ class Calculator:
                         self.equation_SV.set("Error! Please Try Again!")
                         self.equation = ""
                         return
+            #prepares powers to be solved
             if expression[counter] == "^":
                 if counter + 1 == len(expression):
                     self.equation_SV.set("Error! Please Try Again!")
@@ -194,10 +202,12 @@ class Calculator:
                 expression = expression[ : counter] + "**" + expression[counter + 1 : ]
                 exponent = True
             counter += 1
+        #check if unfinished parentheses
         if paren_counter % 2 == 1:
             self.equation_SV.set("Error! Please Try Again!")
             self.equation = ""
             return
+        #solve the equation using built in eval function
         try:
             if expression == str(eval(expression)):
                 self.equation_SV.set("Error! Please Try Again!")
@@ -212,7 +222,8 @@ class Calculator:
 
         """if len(expression) > 17:
             e = len(expression[17, ])"""
-
+        
+        #set the equation variable used for updating
         self.equation_SV.set(expression)
         self.equation = ""
 
@@ -221,7 +232,7 @@ class Calculator:
 
 
 
-
+#runs api to execute program
 calculator = Calculator()
 calculator.api()
 

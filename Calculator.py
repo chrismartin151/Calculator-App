@@ -223,9 +223,8 @@ class Calculator:
             return
         #solve the equation using built in eval function
         try:
-            if expression == str(eval(expression)):
-                self.equation_SV.set("Error! Please Try Again!")
-                self.equation = ""
+            if comp_expr == str(eval(expression)):
+                expression = "Error! Please Try Again!"
                 return
 
             expression = str(eval(expression))
@@ -233,9 +232,6 @@ class Calculator:
         except:
             self.equation_SV.set("Error! Please Try Again!")
             self.equation = ""
-
-        """if len(expression) > 17:
-            e = len(expression[17, ])"""
 
         #set the equation variable used for updating
         self.equation_SV.set(expression)

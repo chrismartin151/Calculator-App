@@ -2,19 +2,19 @@ import tkinter as tk
 
 
 class Calculator:
-    
+
     #global variable
     equation = ""
 
     def __init__(self):
-        
+
         #setup for the window
         self.root = tk.Tk()
         self.root.title("Spoopy Calculator")
         self.root.geometry("376x500")
         self.root.configure(background='black')
         self.root.iconbitmap("pumpkin.ico")
-        
+
         #preset style for buttons
         self.wide = 94
         self.high = 75
@@ -23,7 +23,7 @@ class Calculator:
         self.text_style = 'bold'
         self.color = '#ff9900'
         self.color2 = '#ffcc80'
-        
+
         #create buttons for calculator
         self.button_clear = tk.Button(self.root, text='CE', command=self.clear, bg=self.color,
                                       font=(self.text_font, self.text_size, self.text_style))
@@ -176,23 +176,33 @@ class Calculator:
             if expression[counter] in {"(", ")"}:
                 paren_counter += 1
                 if expression[counter] == "(":
-                    if counter == len(expression):
+                    if counter == len(expression)-1:
                         self.equation_SV.set("Error! Please Try Again!")
                         self.equation = ""
                         return
-                    elif expression[counter + 1] == ")":
+                    elif expression[counter + 1] in {")", "+", "-", "*", "/", "^"}:
                         self.equation_SV.set("Error! Please Try Again!")
                         self.equation = ""
                         return
+                    elif counter != 0:
+                        if expression[counter-1] in {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}:
+                            self.equation_SV.set("Error! Please Try Again!")
+                            self.equation = ""
+                            return
                 elif expression[counter] == ")":
                     if counter == 0:
                         self.equation_SV.set("Error! Please Try Again!")
                         self.equation = ""
                         return
-                    elif expression[counter - 1] == "(":
+                    elif expression[counter - 1] in {"(", "+", "-", "*", "/", "^"}:
                         self.equation_SV.set("Error! Please Try Again!")
                         self.equation = ""
                         return
+                    elif counter != len(expression) - 1:
+                        if expression[counter+1] in {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}:
+                            self.equation_SV.set("Error! Please Try Again!")
+                            self.equation = ""
+                            return
             #prepares powers to be solved
             if expression[counter] == "^":
                 if counter + 1 == len(expression):
@@ -222,7 +232,7 @@ class Calculator:
 
         """if len(expression) > 17:
             e = len(expression[17, ])"""
-        
+
         #set the equation variable used for updating
         self.equation_SV.set(expression)
         self.equation = ""
